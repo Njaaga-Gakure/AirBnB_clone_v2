@@ -12,9 +12,9 @@ def do_pack():
     if not os.path.exists("versions"):
         local("mkdir versions")
     ts = datetime.utcnow().strftime('%Y%m%d%H%M%S')
-    fileName = f"web_static_{ts}.tgz"
-    local(f"tar -cvzf versions/{fileName} web_static")
-    archiveFilePath = f"versions/{fileName}"
+    fileName = "web_static_{}.tgz".format(ts)
+    local("tar -cvzf versions/{} web_static".format(fileName))
+    archiveFilePath = "versions/{}".format(fileName)
     if os.path.exists(archiveFilePath):
         return archiveFilePath
     return None
