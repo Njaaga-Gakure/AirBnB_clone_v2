@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Distribute an archive to your webservers."""
 
 
@@ -23,13 +23,15 @@ def do_deploy(archive_path):
         return False
     put(archive_path, "/tmp")
     dirName = archive_path.split('/')[1].split('.')[0]
-    run(f"mkdir -p /data/web_static/releases/{dirName}")
+    run("mkdir -p /data/web_static/releases/{}".format(dirName))
     archiveName = archive_path.split('/')[1]
-    run(f"tar -xzf /tmp/{archiveName} -C /data/web_static/releases/{dirName}/")
-    run(f"rm /tmp/{archiveName}")
-    run(f"mv /data/web_static/releases/{dirName}/web_static/*"
-        f" /data/web_static/releases/{dirName}/")
-    run(f"rm -rf /data/web_static/releases/{dirName}/web_static")
+    run("tar -xzf /tmp/{} -C"
+        " /data/web_static/releases/{}/".format(archiveName, dirName))
+    run("rm /tmp/{}".format(archiveName))
+    run("mv /data/web_static/releases/{}/web_static/*"
+        " /data/web_static/releases/{}/".format(dirName, dirName))
+    run("rm -rf /data/web_static/releases/{}/web_static".format(dirName))
     run("rm -rf /data/web_static/current")
-    run(f"ln -s /data/web_static/releases/{dirName}/ /data/web_static/current")
+    run("ln -s /data/web_static/releases/{}/"
+        " /data/web_static/current".format(dirName))
     return True
